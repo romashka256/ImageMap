@@ -20,7 +20,7 @@ import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
-import android.widget.ImageView;
+
 import android.widget.Scroller;
 import android.widget.Toast;
 
@@ -56,8 +56,8 @@ public class ImageMap extends android.support.v7.widget.AppCompatImageView {
     // Allowing size to go too large may result in memory problems.
     //  set this to 1.0f to disable resizing
     // by default, this is 1.5f
-    private static final float defaultMaxSize = 1.5f;
-    private float mMaxSize = 1.5f;
+    private static final float defaultMaxSize = 3f;
+    private float mMaxSize = 3f;
 
     /* Touch event handling variables */
     private VelocityTracker mVelocityTracker;
@@ -176,7 +176,6 @@ public class ImageMap extends android.support.v7.widget.AppCompatImageView {
         this.mMaxSize = a.getFloat(R.styleable.ImageMap_maxSizeFactor, defaultMaxSize);
 
         this.mapName = a.getString(R.styleable.ImageMap_map);
-        Toast.makeText(getContext(),mapName,Toast.LENGTH_SHORT).show();
        // if (mapName != null) {
 
             loadMap("europemap");
@@ -429,6 +428,8 @@ public class ImageMap extends android.support.v7.widget.AppCompatImageView {
         // TODO: enable variable inSampleSize for low-memory devices
         options = new BitmapFactory.Options();
         options.inSampleSize = 1;
+        options.inScaled = false;
+
 
         if (bitmap == null) {
             bitmap = BitmapFactory.decodeResource(getResources(), resId, options);
@@ -473,6 +474,7 @@ public class ImageMap extends android.support.v7.widget.AppCompatImageView {
         bubblePaint.setColor(0xFFFFFFFF);
         bubbleShadowPaint = new Paint();
         bubbleShadowPaint.setColor(0xFF000000);
+
 
     }
 
@@ -547,7 +549,7 @@ public class ImageMap extends android.support.v7.widget.AppCompatImageView {
 
                 mScrollTop = 0;
                 mScrollLeft = 0;
-                scaleBitmap(mMinWidth, mMinHeight);
+                scaleBitmap(2650, 1050);
             }
         }
     }
@@ -599,6 +601,7 @@ public class ImageMap extends android.support.v7.widget.AppCompatImageView {
                 // scale the bitmap
                 if (resize) {
                     scaleBitmap(newWidth, newHeight);
+
                 } else {
                     mExpandWidth = newWidth;
                     mExpandHeight = newHeight;
@@ -612,6 +615,7 @@ public class ImageMap extends android.support.v7.widget.AppCompatImageView {
         }
     }
 
+
     /**
      * Set the image to new width and height
      * create a new scaled bitmap and dispose of the previous one
@@ -620,6 +624,8 @@ public class ImageMap extends android.support.v7.widget.AppCompatImageView {
      * @param newWidth
      * @param newHeight
      */
+
+
     public void scaleBitmap(int newWidth, int newHeight) {
         // Technically since we always keep aspect ratio intact
         // we should only need to check one dimension.
@@ -664,7 +670,10 @@ public class ImageMap extends android.support.v7.widget.AppCompatImageView {
     void resizeBitmap(int amount) {
         int adjustWidth = amount;
         int adjustHeight = (int) (adjustWidth / mAspect);
+        if(adjustHeight > 0 || adjustWidth > 0){
+        Toast.makeText(getContext(),"width : "+ adjustWidth + " heigh : " + adjustHeight ,Toast.LENGTH_SHORT).show();
         scaleBitmap(mExpandWidth + adjustWidth, mExpandHeight + adjustHeight);
+        }
     }
 
     /**

@@ -11,9 +11,11 @@
         android:id="@+id/map"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         ctc:map="europemap"
         ctc:maxSizeFactor="3"
-        ctc:scaleFromOriginal="false"
-        ctc:fitImageToScreen="false"/>
+        ctc:scaleFromOriginal="true"
+        ctc:fitImageToScreen="true"/>
 
 </android.support.constraint.ConstraintLayout>
